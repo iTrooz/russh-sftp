@@ -11,6 +11,16 @@ pub struct File {
 }
 
 impl File {
+    pub fn new(filename: String, attrs: FileAttributes) -> File {
+        let mut file = File {
+            filename,
+            longname: "".to_string(),
+            attrs,
+        };
+        file.longname = file.longname();
+        file
+    }
+
     fn permission(&self, permission: u32) -> String {
         let read = (permission >> 2) & 0x1;
         let write = (permission >> 1) & 0x1;
