@@ -62,7 +62,7 @@ where
         Ok(request) => {
             log::debug!("Received packet {request:?}");
             process_request(request, handler).await
-        },
+        }
         Err(_) => Packet::error(0, StatusCode::BadMessage),
     };
 
