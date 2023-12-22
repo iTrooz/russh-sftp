@@ -59,10 +59,14 @@ where
     let mut bytes = read_packet(stream).await?;
 
     let response = match Packet::try_from(&mut bytes) {
-        Ok(request) => process_request(request, handler).await,
+        Ok(request) => {
+            log::debug!("Received packet {request:?}");
+            process_request(request, handler).await
+        },
         Err(_) => Packet::error(0, StatusCode::BadMessage),
     };
 
+    log::debug!("Sent packet {response:?}");
     let packet = Bytes::try_from(response)?;
     stream.write_all(&packet).await?;
 
